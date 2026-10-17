@@ -122,6 +122,8 @@
   .res a{font-family:var(--mono);font-size:10.5px;font-weight:500;text-decoration:none;color:var(--muted);
     background:#20242e;border:1px solid var(--border);padding:2px 8px;border-radius:5px;transition:all .13s ease}
   .res a:hover{color:var(--text);border-color:#434b59}
+  .res a.pdf{color:var(--signal);border-color:rgba(245,181,71,0.35);background:rgba(245,181,71,0.08)}
+  .res a.pdf:hover{border-color:var(--signal)}
   .tag{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:0.04em;padding:2px 7px;border-radius:5px;flex-shrink:0}
   .tag.review{background:rgba(69,192,138,0.13);color:#6ed6a6;border:1px solid rgba(69,192,138,0.25)}
   .tag.new{background:rgba(59,158,255,0.12);color:#78bcff;border:1px solid rgba(59,158,255,0.22)}
@@ -327,6 +329,16 @@ const days=[
   [7,90,"Final AI Red Team Assessment","🔥 Ship it","milestone",["GARAK","PYRIT","PROMPTFOO","OWASP"]],
 ];
 
+// day study-guide PDFs in pdfs/ (add a line as each new day is published)
+const PDFS={
+  1:"Day01_AI_Red_Teaming_and_Application_Architecture.pdf",
+  2:"Day02_Linux_for_AI_Red_Teaming.pdf",
+  3:"Day03_Python_for_Security_Automation.pdf",
+  4:"Day04_HTTP_and_REST_APIs_for_AI_Applications.pdf",
+  6:"Day06_Authentication_and_Authorization.pdf",
+  7:"Day07_Web_Vulnerabilities_in_AI_Applications.pdf",
+};
+
 const CHECK='<svg viewBox="0 0 24 24" fill="none" stroke="#0f1117" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg>';
 
 let done=load(STORE,[]);
@@ -366,7 +378,8 @@ phases.forEach(ph=>{
       ${ds.map(d=>{
         const [,n,title,hands,tag,res,bonus]=d;
         const tlabel=tag==="milestone"?"CHECKPOINT":tag==="review"?"REVIEW":"NEW";
-        const chips=(res||[]).map(k=>RES[k]?`<a href="${RES[k].u}" target="_blank" rel="noopener">${RES[k].t}</a>`:"").join("");
+        const pdf=PDFS[n]?`<a class="pdf" href="pdfs/${PDFS[n]}" target="_blank" rel="noopener" download>📄 PDF</a>`:"";
+        const chips=pdf+(res||[]).map(k=>RES[k]?`<a href="${RES[k].u}" target="_blank" rel="noopener">${RES[k].t}</a>`:"").join("");
         return `<div class="day${isDone(n)?' done':''}" data-n="${n}" role="button" tabindex="0" aria-pressed="${isDone(n)}">
           <span class="cb">${CHECK}</span>
           <div class="dbody">
